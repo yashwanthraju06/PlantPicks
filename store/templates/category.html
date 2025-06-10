@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Plant-Themed Category Header -->
+<header class="py-5" style="background: linear-gradient(to right, #a8e6cf, #dcedc1);">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-success">
+            <h1 class="display-4 fw-bold">{{ category }}</h1>
+            <p class="lead text-muted mb-0">Explore nature’s best picks</p>
+        </div>
+    </div>
+</header>
+
+<!-- Products Section -->
+<section class="py-5" style="background-color: #f0fdf4;">
+    <div class="container px-4 px-lg-5 mt-4">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {% for product in products %}
+                <div class="col mb-5">
+                    <div class="card h-100 shadow-sm" style="border: 2px solid #c8e6c9; border-radius: 15px;">
+                        {% if product.is_sale %}
+                            <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                        {% endif %}
+                        <!-- Product image -->
+                        <img class="card-img-top" src="{{ product.image.url }}" alt="..." style="border-top-left-radius: 13px; border-top-right-radius: 13px;" />
+                        
+                        <!-- Product details -->
+                        <div class="card-body p-4">
+                            <div class="text-center">
+                                <h5 class="fw-bold text-success">{{ product.name }}</h5>
+                                {% if product.is_sale %}
+                                    <p class="text-muted mb-0"><strike>Rs {{ product.price }}</strike></p>
+                                    <p class="text-success fw-bold">Rs {{ product.sale_price }}</p>
+                                {% else %}
+                                    <p class="text-success fw-semibold">Rs {{ product.price }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Product actions -->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center">
+                                <a class="btn btn-outline-success mt-auto rounded-pill" href="{% url 'product' product.id %}">
+                                    View Product
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

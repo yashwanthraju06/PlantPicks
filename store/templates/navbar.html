@@ -1,0 +1,90 @@
+<!-- Plant-Themed Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm rounded-bottom" style="background-color: #e6f4ea; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand fw-bold text-success" href="{% url 'home' %}" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); font-family: 'Segoe UI', sans-serif;">
+            🌿 PlantPicks
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left side links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold {% if request.path == '/' %}active{% endif %}" style="color: #2f5130;" href="{% url 'home' %}">Home</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold" style="color: #2f5130;" href="{% url 'search' %}">Search</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold" style="color: #2f5130;" href="{% url 'about' %}">About</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-semibold" style="color: #2f5130;" id="navbarDropdownProfile" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Profile
+                    </a>
+                    <ul class="dropdown-menu shadow rounded" aria-labelledby="navbarDropdownProfile">
+                        <li><a class="dropdown-item" href="{% url 'update_user' %}">User Profile</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="{% url 'update_info' %}">User Info</a></li>
+                    </ul>
+                </li>
+
+                {% if user.is_superuser %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-semibold" style="color: #2f5130;" id="navbarDropdownOrders" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Orders
+                    </a>
+                    <ul class="dropdown-menu shadow rounded" aria-labelledby="navbarDropdownOrders">
+                        <li><a class="dropdown-item" href="{% url 'shipped_dash' %}">Shipped Orders</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="{% url 'not_shipped_dash' %}">Unshipped Orders</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold" style="color: #2f5130;" href="{% url 'logout' %}">Logout</a>
+                </li>
+
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold" style="color: #2f5130;" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold" style="color: #2f5130;" href="{% url 'Register' %}">Register</a>
+                </li>
+                {% endif %}
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle fw-semibold" style="color: #2f5130;" id="navbarDropdownCategories" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categories
+                    </a>
+                    <ul class="dropdown-menu shadow rounded" aria-labelledby="navbarDropdownCategories">
+                        <li><a class="dropdown-item" href="{% url 'category_summary' %}">All Categories</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Plants' %}">Plants</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Planters & Pots' %}">Planters & Pots</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Plant Care Tools' %}">Plant Care Tools</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Starter Kits' %}">Starter Kits</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'Decor Add-ons' %}">Decor Add-ons</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <!-- Cart Button -->
+            <a href="{% url 'cart_summary' %}" class="btn btn-success position-relative rounded-pill shadow-sm">
+                <i class="bi bi-cart-fill me-1"></i> Cart
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" id="cart_quantity">
+                    {{ cart|length }}
+                </span>
+            </a>
+        </div>
+    </div>
+</nav>

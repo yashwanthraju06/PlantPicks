@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header -->
+<header class="py-5 mb-5 shadow-sm plant-header">
+    <div class="container text-center text-white">
+        <h1 class="display-4 fw-bold">🌿 Login</h1>
+        <p class="lead text-white-50 mb-0">Access your garden of features</p>
+    </div>
+</header>
+
+<!-- Login Card -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow-sm border-0 rounded-4 plant-card">
+                <div class="card-body p-4">
+                    <h3 class="text-center mb-4 text-success">Welcome Back 🌱</h3>
+
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            Invalid login details. Please try again.
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username" required>
+                            <label for="floatingUsername">👤 Username</label>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                            <label for="floatingPassword">🔒 Password</label>
+                        </div>
+                        <button type="submit" class="btn plant-btn w-100 py-2">🌼 Log In</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Plant-Themed Styles -->
+<style>
+body {
+    background-color: #f0fdf4;
+}
+
+.plant-header {
+    background: linear-gradient(135deg, #66bb6a, #388e3c);
+    color: white;
+}
+
+.plant-card {
+    background: #f9fefb;
+    border: 2px solid #dcedc8;
+    box-shadow: 0 6px 12px rgba(76, 175, 80, 0.1);
+}
+
+.plant-btn {
+    background: linear-gradient(135deg, #81c784, #66bb6a);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 30px;
+    transition: all 0.3s ease-in-out;
+}
+
+.plant-btn:hover {
+    background: #4caf50;
+    box-shadow: 0 5px 14px rgba(76, 175, 80, 0.3);
+    color: #fff;
+}
+
+.form-control:focus {
+    border-color: #66bb6a;
+    box-shadow: 0 0 0 0.2rem rgba(129, 199, 132, 0.25);
+}
+</style>
+{% endblock %}

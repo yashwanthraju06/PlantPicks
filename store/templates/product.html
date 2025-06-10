@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card mb-4 shadow plant-card">
+        <div class="row g-0">
+            <div class="col-md-5 d-flex align-items-center justify-content-center">
+                <img src="{{ product.image.url }}" class="img-fluid rounded-start" alt="{{ product.name }}">
+            </div>
+            <div class="col-md-7">
+                <div class="card-body">
+                    <h3 class="card-title text-success fw-bold">{{ product.name }}</h3>
+                    <p class="card-text text-muted">{{ product.description }}</p>
+                    
+                    <hr>
+
+                    <p class="fs-5">
+                        {% if product.is_sale %}
+                            <span class="text-muted"><strike>Rs {{ product.price }}</strike></span>
+                            <span class="text-success fw-semibold">Rs {{ product.sale_price }}</span>
+                        {% else %}
+                            <span class="text-success fw-semibold">Rs {{ product.price }}</span>
+                        {% endif %}
+                    </p>
+
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-3 fw-bold">Quantity:</div>
+                        <div class="col-md-3">
+                            <select class="form-select form-select-sm rounded-pill shadow-sm" id="qty-cart">
+                                {% for i in "12345" %}
+                                    <option value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="{% url 'home' %}" class="btn btn-outline-success rounded-pill px-4">🏡 Home</a>
+                        <button type="button" value="{{ product.id }}" class="btn btn-success rounded-pill px-4" id="add-cart">🛒 Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+.plant-card {
+    border-radius: 1rem;
+    background-color: #f6fff8;
+    border: 1px solid #d4edda;
+}
+
+.card-title {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+#qty-cart:focus {
+    border-color: #81c784;
+    box-shadow: 0 0 0 0.2rem rgba(129, 199, 132, 0.25);
+}
+</style>
+
+<!-- AJAX Cart Script -->
+<script>
+$(document).on('click', '#add-cart', function(e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'cart_add' %}",
+        data: {
+            product_id: $('#add-cart').val(),
+            product_qty: $('#qty-cart option:selected').text(),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json) {
+            document.getElementById("cart_quantity").textContent = json.qty;
+            location.reload();
+        },
+        error: function(xhr, errmsg, err) {
+            console.log("Cart Add Error:", errmsg);
+        }
+    });
+});
+</script>
+{% endblock %}

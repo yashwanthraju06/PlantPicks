@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header -->
+<header class="py-5 shadow" style="background-color: #2d6a4f;">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">🧾 Checkout</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Review your order & shipping info with nature's calm 🍃</p>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Order Summary -->
+            <div class="card shadow-sm border-0 mb-5" style="background-color: #f0fdf4;">
+                <div class="card-header text-white" style="background-color: #40916c;">
+                    <h5 class="mb-0">
+                        🛍️ Order Summary
+                    </h5>
+                </div>
+                <div class="card-body">
+
+                    {% for product in cart_products %}
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="fw-semibold mb-1 text-success">
+                                    🌱 {{ product.name }}
+                                </h6>
+                                <small class="text-muted d-block">
+                                    Quantity:
+                                    {% for key, value in quantities.items %}
+                                        {% if key == product.id|slugify %}
+                                            {{ value }}
+                                        {% endif %}
+                                    {% endfor %}
+                                </small>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge rounded-pill bg-light text-success fs-6 px-3 py-2 border border-success">
+                                    {% if product.is_sale %}
+                                        ₹{{ product.sale_price }}
+                                    {% else %}
+                                        ₹{{ product.price }}
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <!-- Total -->
+                    <div class="d-flex justify-content-end mt-4">
+                        <h5 class="fw-bold text-success">
+                            🌼 Total:
+                            <span class="badge bg-success-subtle text-dark fs-5 px-3 py-2 border border-success">₹{{ totals }}</span>
+                        </h5>
+                    </div>
+
+                    <!-- Update Items Button -->
+                    <div class="text-center mt-4">
+                        <a href="{% url 'cart_summary' %}" class="btn btn-outline-success rounded-pill px-4 py-2">
+                            ✏️ Update Cart
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Info -->
+            <div class="card shadow border-0" style="background-color: #e6f4ea;">
+                <div class="card-header text-white" style="background-color: #52b788;">
+                    <h5 class="mb-0">🚚 Shipping Information</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'billing_info' %}">
+                        {% csrf_token %}
+                        {{ shipping_form.as_p }}
+
+                        <!-- Continue Button -->
+                        <div class="text-center mt-4">
+                            <button class="btn btn-success rounded-pill px-5 py-2 shadow-sm" type="submit">
+                                💳 Continue to Billing
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

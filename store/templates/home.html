@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header -->
+<header class="py-5" style="background: linear-gradient(to right, #a8e6cf, #dcedc1);">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center">
+            <h1 class="display-4 fw-bold" style="color: #1b4332;">Search Products</h1>
+            <p class="lead fw-normal text-muted mb-0">Find your next green companion 🌱</p>
+        </div>
+    </div>
+</header>
+
+
+
+<!-- Search Form -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0" style="background-color: #f0fdf4;">
+                <div class="card-header fw-semibold text-success" style="background-color: #d8f3dc;">
+                    Search Plants
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'search' %}">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="searched" placeholder="e.g., Fern, Aloe Vera, Succulent..." required>
+                            <button type="submit" class="btn plant-btn">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Results -->
+{% if searched %}
+<section class="pb-5">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+            {% for product in searched %}
+            <div class="col mb-5">
+                <div class="card h-100 shadow-sm border-0" style="background-color: #fefae0;">
+
+                    {% if product.is_sale %}
+                    <div class="badge text-white position-absolute" style="background-color: #74c69d; top: 0.5rem; right: 0.5rem;">Sale!</div>
+                    {% endif %}
+
+                    <!-- Image -->
+                    <div style="height: 250px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                        <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}" style="max-height: 100%; width: auto;" />
+                    </div>
+
+                    <!-- Info -->
+                    <div class="card-body p-4 text-center">
+                        <h5 class="fw-bolder text-success">{{ product.name }}</h5>
+                        {% if product.is_sale %}
+                        <p>
+                            <strike class="text-muted">Rs {{ product.price }}</strike>
+                            <span class="text-success fw-semibold">Rs {{ product.sale_price }}</span>
+                        </p>
+                        {% else %}
+                        <p class="text-dark">Rs {{ product.price }}</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Action -->
+                    <div class="card-footer bg-transparent border-top-0 text-center pb-4">
+                        <a class="btn plant-btn mt-auto" href="{% url 'product' product.id %}">🌿 View Product</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center mt-5">
+                <h5 class="text-muted">No plant found matching your search 🪴</h5>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Reusable Plant-Themed Button -->
+<style>
+.plant-btn {
+    background-color: #95d5b2;
+    color: #1b4332;
+    border: none;
+    font-weight: 500;
+    border-radius: 50px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.plant-btn:hover {
+    background-color: #74c69d;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 128, 0, 0.15);
+}
+</style>
+
+{% endblock %}

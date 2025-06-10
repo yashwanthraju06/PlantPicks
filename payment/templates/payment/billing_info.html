@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Header -->
+<header class="py-5 shadow" style="background-color: #2d6a4f;">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">💳 Billing Info</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Enter your payment details below — calm and green 🍀</p>
+        </div>
+    </div>
+</header>
+
+<br/><br/>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+            <!-- Order Summary Card -->
+            <div class="card shadow border-0 mb-4" style="background-color: #e6f4ea;">
+                <div class="card-header text-white" style="background-color: #40916c;">
+                    🛍️ Order Summary
+                </div>
+                <div class="card-body">
+                    {% for product in cart_products %}
+                        🌱 <strong>{{ product.name }}</strong>:
+                        {% if product.is_sale %}
+                            ₹{{ product.sale_price }}
+                        {% else %}
+                            ₹{{ product.price }}
+                        {% endif %}
+                        <br/>
+                        <small class="text-muted">
+                            Quantity:
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                        </small>
+                        <br/><br/>
+                    {% endfor %}
+                    <h5 class="text-success">🌼 Total: ₹{{ totals }}</h5>
+                    <br/>
+                    <a href="{% url 'cart_summary' %}" class="btn btn-outline-success rounded-pill btn-sm">✏️ Update Items</a>
+                </div>
+            </div>
+
+            <!-- Shipping Info Card -->
+            <div class="card shadow border-0 mb-4" style="background-color: #f0fdf4;">
+                <div class="card-header text-white" style="background-color: #52b788;">
+                    🚚 Shipping Info
+                </div>
+                <div class="card-body">
+                    <p>
+                        🌿 <strong>Name:</strong> {{ shipping_info.shipping_full_name }}<br/>
+                        📧 <strong>Email:</strong> {{ shipping_info.shipping_email }}<br/>
+                        🏡 <strong>Address 1:</strong> {{ shipping_info.shipping_address1 }}<br/>
+                        🌿 <strong>Address 2:</strong> {{ shipping_info.shipping_address2 }}<br/>
+                        🏙️ <strong>City:</strong> {{ shipping_info.shipping_city }}<br/>
+                        🧭 <strong>State:</strong> {{ shipping_info.shipping_state }}<br/>
+                        📮 <strong>Zipcode:</strong> {{ shipping_info.shipping_zipcode }}<br/>
+                        🌍 <strong>Country:</strong> {{ shipping_info.shipping_country }}
+                    </p>
+                    <a href="{% url 'checkout' %}" class="btn btn-outline-success rounded-pill btn-sm">✏️ Update Shipping</a>
+                </div>
+            </div>
+
+            <!-- Paypal Form -->
+            {% if paypal_form %}
+            <div class="card shadow border-0 mb-4" style="background-color: #d8f3dc;">
+                <div class="card-body text-center">
+                    {{ paypal_form.render }}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Billing Form -->
+            <div class="card shadow border-0" style="background-color: #e6f4ea;">
+                <div class="card-header text-white" style="background-color: #2d6a4f;">
+                    🧾 Payment Info
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'process_order' %}">
+                        {% csrf_token %}
+                        {{ billing_form.as_p }}
+                        <br/>
+                        <button type="submit" class="btn btn-success rounded-pill px-4 shadow-sm">
+                            ✅ Pay Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <br/><br/>
+        </div>
+    </div>
+</div>
+{% endblock %}

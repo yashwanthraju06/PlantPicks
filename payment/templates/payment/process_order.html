@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Header -->
+<header class="py-5 shadow" style="background-color: #2d6a4f;">
+    <div class="container text-center text-white">
+        <h1 class="display-4 fw-bold">🌱 Processing Order...</h1>
+        <p class="lead text-white-50">Please review your details below 🍃</p>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Order Summary -->
+            <div class="card border-0 shadow-sm mb-4" style="background-color: #e6f4ea;">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="bi bi-cart-check-fill me-2"></i>🧾 Order Summary</h5>
+                </div>
+                <div class="card-body">
+                    {% for product in cart_products %}
+                        <strong>{{ product.name }}</strong>:
+                        {% if product.is_sale %}
+                            ₹{{ product.sale_price }}
+                        {% else %}
+                            ₹{{ product.price }}
+                        {% endif %}
+                        <br/>
+                        <small>🌿 Quantity:
+                            {% for key, value in quantities.items %}
+                                {% if key == product.id|slugify %}
+                                    {{ value }}
+                                {% endif %}
+                            {% endfor %}
+                        </small>
+                        <hr/>
+                    {% endfor %}
+                    <p class="fw-bold fs-5">Total: <span class="text-success">₹{{ totals }}</span></p>
+                    <a href="{% url 'cart_summary' %}" class="btn btn-outline-success rounded-pill">📝 Update Items</a>
+                </div>
+            </div>
+
+            <!-- Shipping Info -->
+            <div class="card border-0 shadow-sm mb-4" style="background-color: #f0fdf4;">
+                <div class="card-header bg-success-subtle text-dark fw-bold">
+                    <i class="bi bi-truck me-2"></i>Shipping Info
+                </div>
+                <div class="card-body">
+                    <p>🌿 <strong>Name:</strong> {{ shipping_info.shipping_full_name }}</p>
+                    <p>📧 <strong>Email:</strong> {{ shipping_info.shipping_email }}</p>
+                    <p>🏡 <strong>Address 1:</strong> {{ shipping_info.shipping_address1 }}</p>
+                    <p>🏡 <strong>Address 2:</strong> {{ shipping_info.shipping_address2 }}</p>
+                    <p>🏙️ <strong>City:</strong> {{ shipping_info.shipping_city }}</p>
+                    <p>🗺️ <strong>State:</strong> {{ shipping_info.shipping_state }}</p>
+                    <p>🔢 <strong>Zipcode:</strong> {{ shipping_info.shipping_zipcode }}</p>
+                    <p>🌍 <strong>Country:</strong> {{ shipping_info.shipping_country }}</p>
+                    <a href="{% url 'checkout' %}" class="btn btn-outline-success rounded-pill mt-3">
+                        ✏️ Update Shipping
+                    </a>
+                </div>
+            </div>
+
+            <!-- Billing Info -->
+            <div class="card border-0 shadow-sm mb-4" style="background-color: #ecfdf5;">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">💳 Billing Info</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{% url 'process_order' %}">
+                        {% csrf_token %}
+                        {{ billing_form.as_p }}
+                        <button type="submit" class="btn btn-success mt-3 rounded-pill px-4">
+                            ✅ Pay Now
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

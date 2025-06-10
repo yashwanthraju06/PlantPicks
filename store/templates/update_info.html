@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Plant-Themed Header -->
+<header class="py-5 shadow-lg" style="background-color: #2d6a4f;">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Update Profile</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Keep your details up to date 🌿</p>
+        </div>
+    </div>
+</header>
+
+<!-- Form Section -->
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow border-0 rounded-4" style="background-color: #f0fdf4;">
+                <div class="card-body p-5">
+                    <h4 class="card-title mb-4 text-center text-success">🌱 User Information</h4>
+
+                    <form method="POST" action="{% url 'update_info' %}">
+                        {% csrf_token %}
+
+                        <!-- User Information -->
+                        <fieldset class="mb-4">
+                            <legend class="fs-5 mb-3 text-success">👤 Basic Info</legend>
+                            <div class="form-group">
+                                {{ form.as_p }}
+                            </div>
+                        </fieldset>
+
+                        <!-- Shipping Information -->
+                        <fieldset class="mb-4">
+                            <legend class="fs-5 mb-3 text-success">🚚 Shipping Address</legend>
+                            <div class="form-group">
+                                {{ shipping_form.as_p }}
+                            </div>
+                        </fieldset>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill shadow-sm" style="background-color: #40916c;">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-3 text-muted">
+                Thank you for staying green 🌿
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

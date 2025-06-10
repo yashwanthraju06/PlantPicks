@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header -->
+<header class="py-4 shadow" style="background-color: #2d6a4f;">
+    <div class="container text-center text-white">
+        <h2 class="fw-bold">📦 Un-Shipped Orders</h2>
+        <p class="text-white-50">Mark orders as shipped with one click 🌱</p>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <div class="card shadow border-0" style="background-color: #e6f4ea;">
+                <div class="card-body p-4">
+                    <h4 class="mb-4 text-success"><i class="bi bi-truck me-2"></i>Pending Shipment</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle shadow-sm" style="background-color: #f0fdf4;">
+                            <thead style="background-color: #40916c;" class="text-white">
+                                <tr>
+                                    <th>🌿 Order</th>
+                                    <th>💰 Price</th>
+                                    <th>📧 Customer Email</th>
+                                    <th>📅 Date Ordered</th>
+                                    <th>✅ Shipped</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in orders %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'orders' item.id %}" class="text-decoration-none text-success fw-semibold">
+                                            #{{ item.id }}
+                                        </a>
+                                    </td>
+                                    <td>₹{{ item.amount_paid }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.date_ordered }}</td>
+                                    <td>
+                                        <form method="POST" class="d-inline">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="shipping_status" value="true">
+                                            <input type="hidden" name="num" value="{{ item.id }}">
+                                            <button type="submit" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                                                ✅ Mark Shipped
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">No pending orders 🌾</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

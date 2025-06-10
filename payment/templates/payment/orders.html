@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Header -->
+<header class="py-4 shadow" style="background-color: #2d6a4f;">
+    <div class="container text-center text-white">
+        <h2 class="fw-bold">🧾 Order #{{ order.id }}</h2>
+        <p class="text-white-50">Detailed order view with shipping status 🌿</p>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Order Summary Card -->
+            <div class="card border-0 shadow-sm" style="background-color: #e6f4ea;">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-receipt-cutoff me-2"></i>Order #{{ order.id }} 
+                        — ₹{{ order.amount_paid }}
+                    </h5>
+                </div>
+                <div class="card-body">
+
+                    <!-- Customer Info -->
+                    <p><strong>📧 Email:</strong> {{ order.email }}</p>
+                    {% if order.date_shipped %}
+                        <p><strong>📦 Date Shipped:</strong> {{ order.date_shipped }}</p>
+                    {% else %}
+                        <p><strong>🕒 Date Ordered:</strong> {{ order.date_ordered }}</p>
+                    {% endif %}
+
+                    <hr/>
+
+                    <p><strong>👤 Customer:</strong> {{ order.full_name }}</p>
+                    <p><strong>🏠 Shipping Address:</strong></p>
+                    <pre class="bg-white p-3 rounded border">{{ order.shipping_address }}</pre>
+
+                    <hr/>
+
+                    <!-- Order Items -->
+                    <h6 class="text-success mb-3">🪴 Ordered Items:</h6>
+                    <ul class="list-group">
+                        {% for item in items %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
+                            {{ item.product }} × {{ item.quantity }}
+                            <span class="badge bg-success rounded-pill">₹{{ item.price }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <br/>
+
+                    <!-- Shipping Status Form -->
+                    {% if not order.shipped %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="shipping_status" value="true">
+                        <button type="submit" class="btn btn-outline-success rounded-pill px-4">
+                            🌿 Mark As Shipped
+                        </button>
+                    </form>
+                    {% else %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="shipping_status" value="false">
+                        <button type="submit" class="btn btn-outline-danger rounded-pill px-4">
+                            🚫 Mark As Not Shipped
+                        </button>
+                    </form>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

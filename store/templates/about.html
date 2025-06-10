@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Plant-Themed Header -->
+<header class="py-5" style="background: linear-gradient(to right, #a8e6cf, #dcedc1);">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-dark">
+            <h1 class="display-4 fw-bold">About PlantPicks</h1>
+            <p class="lead text-muted">Rooted in nature, grown with care — your eco-friendly plant marketplace</p>
+        </div>
+    </div>
+</header>
+
+<!-- Who We Are Section -->
+<section class="py-5">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-5 align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <img src="{% static 'assets/plant-about.jpg' %}" class="img-fluid rounded shadow-sm" alt="PlantPicks Overview">
+            </div>
+            <div class="col-md-6">
+                <h2 class="fw-bold text-success">Our Story</h2>
+                <p class="text-muted">
+                    At PlantPicks, we believe plants aren't just decorations — they’re companions. Founded in 2024, we bring handpicked greenery to homes and hearts across the country. Whether you’re a plant parent or just starting your indoor jungle, we’re here to help you grow.
+                </p>
+                <p class="text-muted">
+                    We are more than a store. We are a movement towards sustainable living, reconnecting people with nature, one plant at a time.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Mission & Values -->
+<section class="py-5 bg-light">
+    <div class="container px-4 px-lg-5 text-center">
+        <h2 class="fw-bold text-success mb-4">What We Stand For</h2>
+        <div class="row gx-4 gx-lg-5">
+            <div class="col-lg-4 mb-5">
+                <i class="bi-leaf-fill fs-1 text-success mb-3"></i>
+                <h5 class="fw-semibold">Sustainability</h5>
+                <p class="text-muted">Eco-conscious packaging, ethical sourcing, and a commitment to a greener tomorrow.</p>
+            </div>
+            <div class="col-lg-4 mb-5">
+                <i class="bi-heart-fill fs-1 text-success mb-3"></i>
+                <h5 class="fw-semibold">Care & Support</h5>
+                <p class="text-muted">We don't just sell plants — we help them thrive with expert guides and community support.</p>
+            </div>
+            <div class="col-lg-4 mb-5">
+                <i class="bi-truck fs-1 text-success mb-3"></i>
+                <h5 class="fw-semibold">Fast, Safe Delivery</h5>
+                <p class="text-muted">Your leafy friends arrive fresh and ready to flourish, delivered with love across India.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Community Quote or CTA -->
+<section class="py-5" style="background: #e8f5e9;">
+    <div class="container px-4 px-lg-5 text-center">
+        <blockquote class="blockquote">
+            <p class="fs-4 fw-light text-success">"The love of gardening is a seed once sown that never dies."</p>
+            <footer class="blockquote-footer text-muted">Gertrude Jekyll</footer>
+        </blockquote>
+        <p class="mt-4">Join our growing community of plant lovers and bring home your first PlantPick today!</p>
+        <a href="{% url 'category' 'Plants' %}" class="btn btn-success px-4 py-2 rounded-pill mt-3 shadow-sm">Browse Plants</a>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-5">
+    <div class="container px-4 px-lg-5 text-center">
+        <h2 class="fw-bold text-success mb-4">Let’s Stay Rooted Together</h2>
+        <p class="text-muted mb-4">We’re always happy to help. Drop us a message, follow us, or just send plant selfies 🌿</p>
+        <ul class="list-unstyled text-muted">
+            <li><i class="bi-envelope-fill me-2 text-success"></i>Email: <a href="mailto:hello@plantpicks.in">hello@plantpicks.in</a></li>
+            <li><i class="bi-telephone-fill me-2 text-success"></i>Phone: +91 98765 43210</li>
+            <li><i class="bi-geo-alt-fill me-2 text-success"></i>Address: 22 Green Lane, Bengaluru, India</li>
+        </ul>
+        <div class="mt-4">
+            <a href="https://instagram.com" class="text-success text-decoration-none me-3"><i class="bi-instagram fs-4"></i></a>
+            <a href="https://facebook.com" class="text-success text-decoration-none me-3"><i class="bi-facebook fs-4"></i></a>
+            <a href="https://twitter.com" class="text-success text-decoration-none"><i class="bi-twitter fs-4"></i></a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
