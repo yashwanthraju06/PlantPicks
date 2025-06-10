@@ -30,8 +30,8 @@ SECRET_KEY = 'django-insecure-(brt8)_&f$p(%n2-j+5n8d4!=t2p4(dol#fw)(444qk9@m-28z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-CSRF_TRUSTED_ORIGINS = []
+ALLOWED_HOSTS = ['plantpicks-production.up.railway.app','https://plantpicks-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['plantpicks-production.up.railway.app','https://plantpicks-production.up.railway.app']
 
 # Application definition
 
