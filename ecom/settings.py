@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-(brt8)_&f$p(%n2-j+5n8d4!=t2p4(dol#fw)(444qk9@m-28z
 DEBUG = True
 
 ALLOWED_HOSTS = ['plantpicks-production.up.railway.app','https://plantpicks-production.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['plantpicks-production.up.railway.app','https://plantpicks-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['plantpicks-production.up.railway.app','https://plantpicks-production.up.railway.app'c]
 
 # Application definition
 
@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],
         'HOST': 'switchyard.proxy.rlwy.net',
         'PORT': '20635',
     }
